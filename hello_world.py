@@ -28,6 +28,7 @@ class Rope_End_Anim(Animation):
         # lrp_end_g=end
 
     def interpolate_mobject(self, alpha: float) -> None:
+        alpha=rush_into(alpha)
         self.mobject.put_start_and_end_on(self.start,[
             self.start[0],
             self.end[1]+(self.start[1]-self.end[1]-self.radius)*alpha 
@@ -43,11 +44,11 @@ class Pulley():
             self,
             play,
             add,
-            position=[0,2,0],
-            size=0.5,
+            position=[0,3,0],
+            size=0.35,#ZOOM
             init_v=1,
             pulley_acc=0,
-            v_space=6,
+            v_space=17,
             e_masses=(1,1)
             ) -> None:
         #rotation
@@ -66,7 +67,7 @@ class Pulley():
         cd=Group(c,d).shift(position)
         add(cd)
         # c_rotate=Rotate(cd,PI*2*init_v*clockw,rate_func=rush_into)
-        c_rotate=Rotate(cd,v_space/size*init_v*clockw,rate_func=linear)
+        c_rotate=Rotate(cd,v_space/size*init_v*clockw,rate_func=rush_into)
         
         # rope
         l_rope_start=c.point_at_angle(PI)
