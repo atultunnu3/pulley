@@ -2,9 +2,7 @@ from manim import *
 import typing
 from manim.typing import Point2D, Point3D, Vector3D
 
-lrp_end_g=0
-lrp_start_g=0
-radius_g=10
+
 class Rope_End_Anim(Animation):
     def __init__(self, 
                     rope:Line,
@@ -22,10 +20,6 @@ class Rope_End_Anim(Animation):
         self.not_r=not_r
         self.radius=radius
         self.ver_space=v_space
-        # global lrp_start_g
-        # lrp_start_g=start
-        # global lrp_end_g
-        # lrp_end_g=end
 
     def interpolate_mobject(self, alpha: float) -> None:
         alpha=rush_into(alpha)
@@ -100,8 +94,3 @@ class Pulley():
         self.d=d
     def ret_dic(self):
         return self.d
-class UsingRotate(Scene):
-    def construct(self):
-        dmobj_anim=Pulley().ret_dic()
-        self.add(*dmobj_anim["mob"])
-        self.play(*dmobj_anim["anim"])
