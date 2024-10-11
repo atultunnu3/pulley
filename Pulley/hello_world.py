@@ -42,8 +42,6 @@ class Rope_End_Anim(Animation):
 class Pulley():
     def __init__(
             self,
-            play,
-            add,
             position=[0,3,0],
             size=0.35,#ZOOM
             init_v=1,
@@ -65,7 +63,7 @@ class Pulley():
         # circ = DashedVMobject(Circle(radius=1, color=WHITE), num_dashes=20)  #TO DO
         d=Dot([0.6*size,0,0],DEFAULT_DOT_RADIUS*size)
         cd=Group(c,d).shift(position)
-        add(cd)
+
         # c_rotate=Rotate(cd,PI*2*init_v*clockw,rate_func=rush_into)
         c_rotate=Rotate(cd,v_space/size*init_v*clockw,rate_func=rush_into)
         
@@ -85,7 +83,7 @@ class Pulley():
         l_rope=Line(l_rope_start,l_rope_end)
         print(l_rope_start,l_rope_end)
         r_rope=Line(r_rope_start,r_rope_end)
-        add(r_rope)
+
         l_rope_anim=Rope_End_Anim(l_rope,l_rope_start,l_rope_end,size,True)
         r_rope_anim=Rope_End_Anim(r_rope,r_rope_start,r_rope_end,size,False,l_rope_ln)
 
@@ -95,10 +93,15 @@ class Pulley():
         always_redraw(lambda:l_squ.next_to(l_rope, DOWN, buff=0))
         r_squ=Square(side_length=size).move_to([r_rope_end]).shift([0,-size/2,0])
         always_redraw(lambda:r_squ.next_to(r_rope, DOWN, buff=0))
-        add(l_squ,r_squ)
+ 
         
 
-        play(c_rotate,r_rope_anim,l_rope_anim, run_time=5,)
+        d= {"mob":(cd,r_rope,l_squ,r_squ),"anim":(c_rotate,r_rope_anim,l_rope_anim)}
+        self.d=d
+    def ret_dic(self):
+        return self.d
 class UsingRotate(Scene):
     def construct(self):
-        Pulley(self.play,self.add)
+        dmobj_anim=Pulley().ret_dic()
+        self.add(*dmobj_anim["mob"])
+        self.play(*dmobj_anim["anim"])
